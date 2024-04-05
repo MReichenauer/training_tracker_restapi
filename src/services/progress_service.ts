@@ -76,6 +76,7 @@ export async function updateProgressById(progressId: number, data: CreateProgres
             data,
         });
         return { status: "success", data: updatedProgress };
+
     } catch (error) {
         debug("Error updating progress:", error);
         return { status: "error", message: "Internal server error" };

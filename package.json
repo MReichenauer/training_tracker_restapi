@@ -1,5 +1,5 @@
 {
-  "name": "fed23-api-prisma-boilerplate",
+  "name": "rest_api_for_cosplay_gym",
   "version": "1.0.0",
   "description": "",
   "main": "dist/server.js",

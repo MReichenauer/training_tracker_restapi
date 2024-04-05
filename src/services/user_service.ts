@@ -37,30 +37,24 @@ export async function createUser(userData: CreateUser):
     };
 }
 
-export async function getUserProfile(email: string, password: string) {
-    // Finding the user by email
+export async function getUserProfile(email: string) {
     const user = await prisma.user.findUnique({
-        where: { email }
+        where: { email },
     });
 
     if (!user) {
-        throw new Error("User not found!");
+        throw new Error("User not found");
     }
 
-    // Validate password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-        throw new Error("That was not the correct password!");
-    }
-
-    // Return user profile (not password)
+    // Return user profile
     return {
         id: user.id,
+		password: user.password,
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
-		weight: user.weight,
-		height: user.height
+        weight: user.weight,
+        height: user.height,
     };
 }
 
@@ -70,3 +64,25 @@ export async function getUserByEmail(email: string) {
     });
 }
 
+export const updateUserProfile = async (userId: number, profileData: any) => {
+    try {
+        await prisma.user.update({
+            where: { id: userId },
+            data: { ...profileData }
+        });
+    } catch (error:any) {
+        throw new Error("Error updating user profile: " + error.message);
+    }
+};
+
+export const deleteUserProfile = async (userId: number) => {
+    try {
+        await prisma.user.delete({
+            where: {
+                id: userId,
+            },
+        });
+    } catch (error:any) {
+        throw new Error(`Error deleting user profile:` + error.message);
+    }
+};

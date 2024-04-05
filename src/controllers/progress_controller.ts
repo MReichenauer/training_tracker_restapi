@@ -10,12 +10,12 @@ const debug = Debug("prisma-debug_progress:Hello from progress_controller");
 
 export const createProgressHandler = async (req: Request, res: Response) => {
     try {
-        if (!req.userCredentials) {
+        if (!req.user) {
             return res.status(401).json({ message: "You need authorization to do this!" });
         }
 
-        const { email, password } = req.userCredentials;
-        const userProfile = await getUserProfile(email, password);
+        const { email } = req.user;
+        const userProfile = await getUserProfile(email);
         const userId = userProfile.id;
 
         const errors = validationResult(req);
@@ -39,12 +39,11 @@ export const createProgressHandler = async (req: Request, res: Response) => {
 
 export const getUserProgressHandler = async (req: Request, res: Response) => {
     try {
-        if (!req.userCredentials) {
-            return res.status(401).json({ message: "You need authorization to do this!" });
-        }
+        if (!req.user)
+		 { return res.status(401).json({ message: "You need authorization to do this!" }); }
 
-        const { email, password } = req.userCredentials;
-        const userProfile = await getUserProfile(email, password);
+        const { email } = req.user;
+        const userProfile = await getUserProfile(email);
         const userId = userProfile.id;
 
         const userProgress = await getUserProgress(userId);
@@ -62,10 +61,10 @@ export const getUserProgressHandler = async (req: Request, res: Response) => {
 export const getOneProgressHandler = async (req: Request, res: Response) => {
     try {
         const progressId = parseInt(req.params.progressId);
-        const userId = req.userCredentials?.id;
+        const userId = req.user.id;
 
-        if (userId === undefined) {
-            return res.status(401).json({ status: "fail", message: "Unauthorized" });
+		if (!req.user) {
+            return res.status(401).json({ message: "You need authorization to do this!" });
         }
 
         const progress = await getProgressById(progressId, userId);
@@ -86,11 +85,8 @@ export const updateProgressHandler = async (req: Request, res: Response) => {
 		 // Get progressId from request
         const progressId = parseInt(req.params.progressId);
 
-        if (!req.userCredentials) {
-            return res.status(401).json({ status: "fail", message: "You need authorization to do this!" });
-        }
 		// Get userId from user credentials
-        const userId = req.userCredentials.id;
+        const userId = req.user.id;
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -103,10 +99,8 @@ export const updateProgressHandler = async (req: Request, res: Response) => {
             return res.status(404).json({ status: "fail", message: updateProgress.message });
         }
 
-        res.status(200).json({
-            status: "success",
-            data: updateProgress.data,
-        });
+        res.status(200).json({ status: "success", data: updateProgress.data, });
+
     } catch (error) {
         debug("Error updating progress:", error);
         res.status(500).json({ status: "error", message: "Internal server error" });
@@ -119,12 +113,7 @@ export const deleteProgressHandler = async (req: Request, res: Response) => {
         const progressId = parseInt(req.params.progressId);
 
         // Get userId from user credentials
-        const userId = req.userCredentials?.id;
-
-        // Check if userId is available
-        if (!userId) {
-            return res.status(401).json({ message: "You need authorization to do this!" });
-        }
+        const userId = req.user.id;
 
         // Check if the progress belongs to the user
         const progress = await getProgressById(progressId, userId);
