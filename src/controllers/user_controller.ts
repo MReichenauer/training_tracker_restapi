@@ -103,7 +103,7 @@ export const editProfileHandler = async (req: Request, res: Response) => {
         res.status(200).json({ status: "success", message: "Profile updated successfully" });
     } catch (error) {
         console.error("Error updating profile:", error);
-        res.status(404).json({ status: "fail", message: "Fail to update profile" });
+        res.status(404).json({ status: "fail", message: "Fail to update profile", error });
     }
 };
 

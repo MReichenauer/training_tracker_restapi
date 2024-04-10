@@ -66,12 +66,21 @@ export async function getUserByEmail(email: string) {
 
 export const updateUserProfile = async (userId: number, profileData: any) => {
     try {
+        // Check if the update includes password, hash it
+        if (profileData.password) {
+            const hashedPass = await bcrypt.hash(profileData.password, saltRounds);
+
+            // Update the plain text password with the hashed one
+            profileData.password = hashedPass;
+        }
+
+        // Update the user profile
         await prisma.user.update({
             where: { id: userId },
             data: { ...profileData }
         });
-    } catch (error:any) {
-        throw new Error("Error updating user profile: " + error.message);
+    } catch (error) {
+        throw new Error("Error updating user profile");
     }
 };
 

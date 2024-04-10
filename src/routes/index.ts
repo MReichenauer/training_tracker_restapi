@@ -4,7 +4,7 @@
 import express from "express";
 import { registerUser, getProfile, loginUser, editProfileHandler, deleteProfileHandler } from "../controllers/user_controller";
 // import { basicAuthMiddleware } from "../validations/basic";
-import { createUserRules } from "../validations/user_validations";
+import { createUserRules, updateUserRules } from "../validations/user_validations";
 import { createProgressRules, updateProgressRules } from "../validations/progress_rules";
 import { createProgressHandler, getOneProgressHandler, getUserProgressHandler, updateProgressHandler, deleteProgressHandler } from "../controllers/progress_controller";
 import { jwtAuthMiddleware } from "../validations/jwt_auth";
@@ -38,7 +38,7 @@ router.get("/profile", jwtAuthMiddleware, getProfile);
 /**
  * Edit a users profile /profile/edit
  */
-router.patch('/profile/edit', jwtAuthMiddleware, editProfileHandler);
+router.patch('/profile/edit', jwtAuthMiddleware, updateUserRules ,editProfileHandler);
 
 /**
  * Delete a users profile /profile/delete
