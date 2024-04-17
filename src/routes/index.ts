@@ -3,7 +3,6 @@
  */
 import express from "express";
 import { registerUser, getProfile, loginUser, editProfileHandler, deleteProfileHandler } from "../controllers/user_controller";
-// import { basicAuthMiddleware } from "../validations/basic";
 import { createUserRules, updateUserRules } from "../validations/user_validations";
 import { createProgressRules, updateProgressRules } from "../validations/progress_rules";
 import { createProgressHandler, getOneProgressHandler, getUserProgressHandler, updateProgressHandler, deleteProgressHandler } from "../controllers/progress_controller";
