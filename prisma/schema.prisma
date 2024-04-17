@@ -17,18 +17,7 @@ model User {
   weight     Float?
   height     Float?
 
-  appointments Appointment[]
-  progress     Progress[]
-}
-
-// Appointments
-model Appointment {
-  id      Int      @id @default(autoincrement()) @db.UnsignedInt
-  date    DateTime
-  trainer String
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @db.UnsignedInt
+  progress Progress[]
 }
 
 // Progress in exercises
@@ -38,7 +27,6 @@ model Progress {
   weight   Float
   exercise String
   reps     Int
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @db.UnsignedInt
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int      @db.UnsignedInt
 }
