@@ -15,38 +15,28 @@ To run against the deployed api, do request to `https://testapi-production-f5d2.
 Routes you can use, see bellow
 
  * To see that api is working you can test this one.
-router.get("/", (req, res) => {
-	res.send({
-		message: "It's alive!🦖",
-	});
-});
+`Get "/"`
 
- * Register a user /register
-router.post("/register", createUserRules, registerUser);
+ * Register a user `POST /register` with a body of {"first_name": "examplename", "last_name": "examplename", "email": "example@example.com", "password": "example123", "weight": 72, "height": 172}
 
- * Login a user and generate a JWT
-router.post("/login", loginUser);
 
- * Get a users profile /profile
-router.get("/profile", jwtAuthMiddleware, getProfile);
+ * Login a user and generate a JWT `POST /login` with the body of {"email": "example@example.com", "password": "example123"} in response you will get your JWT that you need to send in auth header in all the other requests.
 
- * Edit a users profile /profile/edit
-router.patch('/profile/edit', jwtAuthMiddleware, updateUserRules ,editProfileHandler);
 
- * Delete a users profile /profile/delete
-router.delete("/profile", jwtAuthMiddleware, deleteProfileHandler);
+ * Get a users profile `GET /profile` `auth: bearer token, token: your JWT`
 
- * Create a progress /progress
-router.post("/progress", jwtAuthMiddleware, createProgressRules, createProgressHandler);
+ * Edit a users profile `PATCH /profile/edit`  `auth: bearer token, token: your JWT` and in the body the fields you want to update.
 
- * Get all of a users progress /progress
-router.get("/progress", jwtAuthMiddleware, getUserProgressHandler);
 
- * Get a single progress of a user /progress/:progressId
-router.get("/progress/:progressId", jwtAuthMiddleware, getOneProgressHandler);
+ * Delete a users profile `DELETE /profile/delete` `auth: bearer token, token: your JWT`
 
- * Update a single progress of a user /progress/:progressId
-router.patch("/progress/:progressId", jwtAuthMiddleware, updateProgressRules, updateProgressHandler);
+ * Create a progress `POST /progress` `auth: bearer token, token: your JWT` with the body of {"data": "YYYY-MM-DD", "exercise": "example", "weight": 1337, "reps": 1337}
 
- * Delete a single progress of a user /progress/:progressId
-router.delete("/progress/:progressId", jwtAuthMiddleware, deleteProgressHandler);
+ * Get all of a users progress `GET /progress` `auth: bearer token, token: your JWT`
+
+
+ * Get a single progress of a user`GET /progress/:progressId` `auth: bearer token, token: your JWT`
+
+ * Update a single progress of a user `PATCH /progress/:progressId` `auth: bearer token, token: your JWT` and in the body the fields you want to update.
+
+ * Delete a single progress of a user `DELETE /progress/:progressId` `auth: bearer token, token: your JWT`
