@@ -57,7 +57,7 @@ export const loginUser = async (req: Request, res: Response) => {
         // Send token in response
         res.status(200).json({ token });
     } catch (error) {
-        console.error("Error logging in:", error);
+       	debug("Error logging in:", error);
         return res.status(401).json({ message: "Invalid email or password" });
     }
 };
@@ -102,7 +102,7 @@ export const editProfileHandler = async (req: Request, res: Response) => {
 
         res.status(200).json({ status: "success", message: "Profile updated successfully" });
     } catch (error) {
-        console.error("Error updating profile:", error);
+        debug("Error updating profile:", error);
         res.status(404).json({ status: "fail", message: "Fail to update profile", error });
     }
 };
@@ -124,7 +124,7 @@ export const deleteProfileHandler = async (req: Request, res: Response) => {
 
         res.status(200).json({ status: "success", message: "Profile deleted successfully" });
     } catch (error) {
-        console.error("Error deleting profile:", error);
+        debug("Error deleting profile:", error);
         res.status(500).json({ status: "error", message: "Internal server error" });
     }
 };

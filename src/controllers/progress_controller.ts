@@ -128,7 +128,7 @@ export const deleteProgressHandler = async (req: Request, res: Response) => {
         res.status(200).json({ status: "success", message: "Progress deleted successfully" });
     } catch (error) {
 
-        console.error("Error deleting progress:", error);
+        debug("Error deleting progress:", error);
         res.status(500).json({ status: "error", message: "Internal server error" });
     }
 };
