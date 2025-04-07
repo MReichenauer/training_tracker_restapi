@@ -1,4 +1,22 @@
-This is a rest-api i made for my site `https://trainingtracker.net/`. It is writen in Typescript/node and made mainly with Prisma, Express, Bcrypt, JWT.
+# Traing Tracker (back-end)
+
+## Project Overview
+Back-end reprository for Training Tracker. 
+Training Tracker is a web application where users can add, edit, and delete their training records. 
+
+## Tech Stack
+TypeScript, Node.js, Express, JWT, Bcrypt, Prisma, Express Validator.
+
+### How to run this project locally
+1. Clone reprository.
+2. Create a MySQL database.
+3. Run `npm i` in the root folder.
+4. Create a .env file according to the .env.example
+5. Run `npx prisma generate` in the root folder. 
+6. Run `npm run dev`
+
+**NOTE:** To run this project you need to clone and run the back-end as well,
+this can be found at: https://github.com/MReichenauer/training_tracker_restapi
 
 To run this localy, you follow this steps below.
 1. Clone or download this repo.
@@ -10,33 +28,72 @@ To run this localy, you follow this steps below.
 7. Run `npm run dev` in the root of the project via your terminal.
 8. Now you can use the api locally!
 
-To run against the deployed api, do request to `https://testapi-production-f5d2.up.railway.app`
 
-Routes you can use, see bellow
+#### Available routes
+The documentation for the response lacks. It was a long time ago i created this project, and at that point in time i didn't do accurate documentation. I will clone this repo and go through all the endpoints to update the documentation.
 
- * To see that api is working you can test this one.
-`Get "/"`
+ * Register a new user 
+  * Method: POST
+  * Endpoint: /register
+  * Request body should include following keys: 
+    * key: "first_name", type: string.
+    * Key: "last_name", type: string.
+    * Key: "email", type: string.
+    * Key: "password", type: string.
+    * key: "weight", type: string.
+    * key: "height", type: string.
 
- * Register a user `POST /register` with a body of {"first_name": "examplename", "last_name": "examplename", "email": "example@example.com", "password": "example123", "weight": 72, "height": 172}
+ * Login a regisered user
+  * Method: Post `POST /login` with the body of {"email": "example@example.com", "password": "example123"} in response you will get your JWT that you need to send in auth header in all the other requests.
+  * Endpoint: /login
+  * Request body should include following keys:
+    * Key: "email", type: string.
+    * Key: "password", type: string.
+  * The response will provide you with a JWT token.
+  
+* Get profile information
+  * Method: GET
+  * Endpoint: /profile
+  * Headers: Key: auth, type: bearer token, value: JWT
 
+* Update profile information
+  * Method: PATCH
+  * Endpoint: /profile/edit
+  * Headers: Key: auth, type: bearer token, value: JWT
+  * Request body: The proifle information key-value pair that should be updated.
 
- * Login a user and generate a JWT `POST /login` with the body of {"email": "example@example.com", "password": "example123"} in response you will get your JWT that you need to send in auth header in all the other requests.
+* Delete a profile
+  * Method: DELETE
+  * Endpoint: /profile/delete
+  * Headers: Key: auth, type: bearer token, value: JWT
 
+ * Add a training record
+  * Method: Post
+  * Headers: Key: auth, type: bearer token, value: JWT
+  * Request body should inclide the following keys:
+    * Key: "date", type string (YYYY-MM-DD format)
+    * Key: "exercise", type: string
+    * Key: "weight", type: number
+    * Key: "reps", type: number
 
- * Get a users profile `GET /profile` `auth: bearer token, token: your JWT`
+* Get all training records
+  * Method: GET
+  * Endpoint: /progress
+  * Headers: Key: auth, type: bearer token, value: JWT
 
- * Edit a users profile `PATCH /profile/edit`  `auth: bearer token, token: your JWT` and in the body the fields you want to update.
+* Get a single training record by id
+  * Method: GET
+  * Endpoint: /progress/:progressId
+  * Headers: Key: auth, type: bearer token, value: JWT
 
+* Update a training record
+  * Method: PATCH
+  * Endpoint: /progress/:progressId
+  * Headers: Key: auth, type: bearer token, value: JWT
+  * Request body: The training record key-value pair that should be updated.
 
- * Delete a users profile `DELETE /profile/delete` `auth: bearer token, token: your JWT`
+* Delete a training record
+  * Method: Delete
+  * Endpoint: /progress/:progressId
+  * Headers: Key: auth, type: bearer token, value: JWT
 
- * Create a progress `POST /progress` `auth: bearer token, token: your JWT` with the body of {"data": "YYYY-MM-DD", "exercise": "example", "weight": 1337, "reps": 1337}
-
- * Get all of a users progress `GET /progress` `auth: bearer token, token: your JWT`
-
-
- * Get a single progress of a user`GET /progress/:progressId` `auth: bearer token, token: your JWT`
-
- * Update a single progress of a user `PATCH /progress/:progressId` `auth: bearer token, token: your JWT` and in the body the fields you want to update.
-
- * Delete a single progress of a user `DELETE /progress/:progressId` `auth: bearer token, token: your JWT`
