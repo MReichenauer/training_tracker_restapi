@@ -15,8 +15,8 @@ TypeScript, Node.js, Express, JWT, Bcrypt, Prisma, Express Validator.
 5. Run `npx prisma generate` in the root folder. 
 6. Run `npm run dev`
 
-**NOTE:** To run this project you need to clone and run the back-end as well,
-this can be found at: https://github.com/MReichenauer/training_tracker_restapi
+**NOTE:** To run this project you need to clone and run the front-end as well,
+this can be found at: https://github.com/MReichenauer/training_tracker
 
 To run this localy, you follow this steps below.
 1. Clone or download this repo.
